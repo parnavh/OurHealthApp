@@ -1,7 +1,7 @@
 from tkinter import Frame, Tk
-from dashboard import Dash_1
+from reminders import Reminders
 
-# FRAMES = [Dash_1]
+# FRAMES = [Dash_1, Dash_2, Dash_3]
 
 class App(Tk):
     def __init__(self, *args, **kwargs):
@@ -26,7 +26,7 @@ class App(Tk):
         #     frame.grid(row=0, column=0, sticky="nsew")
         #     frame.tkraise()
 
-        Dash_1(self, container)
+        Reminders(self, container)
 
         self.mainloop()
 
