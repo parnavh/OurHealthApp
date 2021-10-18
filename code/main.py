@@ -1,5 +1,5 @@
 from tkinter import Frame, Tk
-from dash_1 import Dash_1
+from dashboard import Dash_1
 
 # FRAMES = [Dash_1]
 
