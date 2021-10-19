@@ -20,11 +20,18 @@ class createacc(Frame):
             highlightthickness = 0,
             relief = "ridge"
         )
-        global entry_image_1, entry_image_2, entry_image_3, entry_image_4
         canvas.place(x = 0, y = 0)
-        entry_image_1 = PhotoImage(
-            file=relative_to_assets("entry_1.png"))
-        entry_bg_1 = canvas.create_image(
+        global entry_image_1, entry_image_2, entry_image_3, entry_image_4, button_image_1, image_image_1, image_image_2, image_image_3
+        entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
+        entry_image_2 = PhotoImage(file=relative_to_assets("entry_2.png"))
+        entry_image_3 = PhotoImage(file=relative_to_assets("entry_3.png"))
+        entry_image_4 = PhotoImage(file=relative_to_assets("entry_1.png"))
+        image_image_1 = PhotoImage(file=relative_to_assets("image_1.png"))
+        image_image_2 = PhotoImage(file=relative_to_assets("image_2.png"))
+        image_image_3 = PhotoImage( file=relative_to_assets("image_3.png"))
+        button_image_1 = PhotoImage(file=relative_to_assets("button_1.png"))
+
+        canvas.create_image(
             179.06845092773438,
             267.3637924194336,
             image=entry_image_1
@@ -50,9 +57,7 @@ class createacc(Frame):
             font=("Roboto", 10 * -1)
         )
 
-        entry_image_4 = PhotoImage(
-            file=relative_to_assets("entry_1.png"))
-        entry_bg_1 = canvas.create_image(
+        canvas.create_image(
             179.06845092773438,
             409,
             image=entry_image_4
@@ -69,7 +74,6 @@ class createacc(Frame):
             width=190,
             height=18
         )
-
         canvas.create_text(
             82.0,
             383.0,
@@ -78,11 +82,7 @@ class createacc(Frame):
             fill="#000000",
             font=("Roboto", 10 * -1)
         )
-
-
-        entry_image_2 = PhotoImage(
-            file=relative_to_assets("entry_2.png"))
-        entry_bg_2 = canvas.create_image(
+        canvas.create_image(
             179.06845092773438,
             355.3637924194336,
             image=entry_image_2
@@ -107,9 +107,6 @@ class createacc(Frame):
             fill="#000000",
             font=("Roboto", 10 * -1)
         )
-        global button_image_1
-        button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
         button_1 = Button(
             image=button_image_1,
             borderwidth=0,
@@ -124,9 +121,7 @@ class createacc(Frame):
             height=24.999984741210938
         )
 
-        entry_image_3 = PhotoImage(
-            file=relative_to_assets("entry_3.png"))
-        entry_bg_3 = canvas.create_image(
+        canvas.create_image(
             179.06845092773438,
             311.3637933731079,
             image=entry_image_3
@@ -160,26 +155,20 @@ class createacc(Frame):
             fill="#000000",
             font=("Roboto", 18 * -1)
         )
-        global image_image_1, image_image_2, image_image_3
-        image_image_1 = PhotoImage(
-            file=relative_to_assets("image_1.png"))
-        image_1 = canvas.create_image(
+        
+        canvas.create_image(
             180,
             70,
             image=image_image_1
         )
 
-        image_image_2 = PhotoImage(
-            file=relative_to_assets("image_2.png"))
-        image_2 = canvas.create_image(
+        canvas.create_image(
             574.0,
             295.0,
             image=image_image_2
         )
 
-        image_image_3 = PhotoImage(
-            file=relative_to_assets("image_3.png"))
-        image_3 = canvas.create_image(
+        canvas.create_image(
             591.0,
             468.0,
             image=image_image_3

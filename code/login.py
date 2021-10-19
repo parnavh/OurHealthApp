@@ -20,16 +20,21 @@ class login(Frame):
             highlightthickness = 0,
             relief = "ridge"
         )
-        global image_image_1, image_image_2, image_image_3
         canvas.place(x = 0, y = 0)
-        image_image_1 = PhotoImage(
-            file=relative_to_assets("image_1.png"))
-        image_1 = canvas.create_image(
+
+        global image_image_1, image_image_2, image_image_3, button_image_1, entry_image_1, entry_image_2
+        image_image_1 = PhotoImage(file=relative_to_assets("image_1.png"))
+        image_image_2 = PhotoImage(file=relative_to_assets("image_2.png"))
+        image_image_3 = PhotoImage(file=relative_to_assets("image_3.png"))
+        entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
+        entry_image_2 = PhotoImage(file=relative_to_assets("entry_2.png"))
+        button_image_1 = PhotoImage(file=relative_to_assets("button_1.png"))
+        
+        canvas.create_image(
             180,
             70,
             image=image_image_1
         )
-
         canvas.create_text(
             80.0,
             185.0,
@@ -38,10 +43,7 @@ class login(Frame):
             fill="#000000",
             font=("Roboto", 18 * -1)
         )
-        global entry_image_1, entry_image_2
-        entry_image_1 = PhotoImage(
-            file=relative_to_assets("entry_1.png"))
-        entry_bg_1 = canvas.create_image(
+        canvas.create_image(
             194.0,
             275.0,
             image=entry_image_1
@@ -67,9 +69,7 @@ class login(Frame):
             font=("Roboto", 12 * -1)
         )
 
-        entry_image_2 = PhotoImage(
-            file=relative_to_assets("entry_2.png"))
-        entry_bg_2 = canvas.create_image(
+        canvas.create_image(
             194.0,
             340.0,
             image=entry_image_2
@@ -95,16 +95,11 @@ class login(Frame):
             fill="#000000",
             font=("Roboto", 12 * -1)
         )
-        image_image_2 = PhotoImage(
-            file=relative_to_assets("image_2.png"))
-        image_2 = canvas.create_image(
+        canvas.create_image(
             603.0,
             300.0,
             image=image_image_2
         )
-        global button_image_1
-        button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
         button_1 = Button(
             image=button_image_1,
             borderwidth=0,
@@ -118,10 +113,7 @@ class login(Frame):
             width=242,
             height=36.0
         )
-
-        image_image_3 = PhotoImage(
-            file=relative_to_assets("image_3.png"))
-        image_3 = canvas.create_image(
+        canvas.create_image(
             580.0,
             458.0,
             image=image_image_3
