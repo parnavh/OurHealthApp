@@ -1,5 +1,7 @@
 from tkinter import Frame, Tk
 from reminders import Reminders
+from createaccount import createacc
+from login import login
 
 # FRAMES = [Dash_1, Dash_2, Dash_3]
 
@@ -26,7 +28,9 @@ class App(Tk):
         #     frame.grid(row=0, column=0, sticky="nsew")
         #     frame.tkraise()
 
-        Reminders(self, container)
+        # Reminders(self, container)
+        # createacc(self, container)
+        login(self, container)
 
         self.mainloop()
 
