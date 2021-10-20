@@ -24,36 +24,32 @@ class Appointments(Frame):
 
         canvas.place(x = 0, y = 0)
 
-        global entry_image_1, entry_image_2, entry_image_3, entry_image_4, image_image_1
-        global button_image_1, button_image_2
-        entry_image_1 = PhotoImage(file=relative_to_assets("appointments/entry_1.png"))
-        entry_image_2 = PhotoImage(file=relative_to_assets("appointments/entry_2.png"))
-        entry_image_3 = PhotoImage(file=relative_to_assets("appointments/entry_3.png"))
-        entry_image_4 = PhotoImage(file=relative_to_assets("appointments/entry_4.png"))
-        image_image_1 = PhotoImage(file=relative_to_assets("appointments/image_1.png"))
-        button_image_1 = PhotoImage(file=relative_to_assets("appointments/button_1.png"))
-        button_image_2 = PhotoImage(file=relative_to_assets("appointments/button_2.png"))
+        global entryImage, image1
+        global addNow, home
+        entryImage = PhotoImage(file=relative_to_assets("appointments/entryimage.png"))
+        image1 = PhotoImage(file=relative_to_assets("appointments/image_1.png"))
+        addNow = PhotoImage(file=relative_to_assets("appointments/addNow.png"))
+        home = PhotoImage(file=relative_to_assets("appointments/home.png"))
 
         canvas.create_rectangle(
-            0.0,
-            0.0,
-            49.0,
-            600.0,
+            0,
+            0,
+            49,
+            600,
             fill="#F8CD8C",
             outline="")
 
         canvas.create_text(
-            60.0,
-            49.0,
+            60,
+            49,
             anchor="nw",
             text="Hey John!",
             fill="#000000",
             font=("Roboto", 20 * -1)
         )
-
         canvas.create_text(
-            60.0,
-            97.0,
+            60,
+            97,
             anchor="nw",
             text="Never miss out on your health!",
             fill="#000000",
@@ -61,19 +57,17 @@ class Appointments(Frame):
         )
 
         canvas.create_text(
-            90.0,
-            446.0,
+            90,
+            446,
             anchor="nw",
             text="For whom?",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
-
-        
-        entry_bg_1 = canvas.create_image(
-            212.0,
-            497.0,
-            image=entry_image_1
+        canvas.create_image(
+            212,
+            497,
+            image=entryImage
         )
         entry_1 = Entry(
             bd=0,
@@ -81,26 +75,23 @@ class Appointments(Frame):
             highlightthickness=0
         )
         entry_1.place(
-            x=99.0,
+            x=99,
             y=485,
             width=225,
             height=25
         )
-
         canvas.create_text(
-            90.0,
-            172.0,
+            90,
+            172,
             anchor="nw",
             text="Whom are you consulting?",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
-
-        
-        entry_bg_2 = canvas.create_image(
-            205.0,
-            223.0,
-            image=entry_image_2
+        canvas.create_image(
+            205,
+            223,
+            image=entryImage
         )
         entry_2 = Entry(
             bd=0,
@@ -108,26 +99,23 @@ class Appointments(Frame):
             highlightthickness=0
         )
         entry_2.place(
-            x=92.0,
+            x=92,
             y=210,
             width=225,
             height=25
         )
-
         canvas.create_text(
-            90.0,
-            264.0,
+            90,
+            264,
             anchor="nw",
             text="When?",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
-
-        
-        entry_bg_3 = canvas.create_image(
-            208.0,
-            314.0,
-            image=entry_image_3
+        canvas.create_image(
+            208,
+            314,
+            image=entryImage
         )
         entry_3 = Entry(
             bd=0,
@@ -135,26 +123,23 @@ class Appointments(Frame):
             highlightthickness=0
         )
         entry_3.place(
-            x=95.0,
+            x=95,
             y=301,
             width=225,
             height=25
         )
-
         canvas.create_text(
-            90.0,
-            355.0,
+            90,
+            355,
             anchor="nw",
             text="Where?",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
-
-        
-        entry_bg_4 = canvas.create_image(
-            212.0,
-            405.0,
-            image=entry_image_4
+        canvas.create_image(
+            212,
+            405,
+            image=entryImage
         )
         entry_4 = Entry(
             bd=0,
@@ -162,30 +147,28 @@ class Appointments(Frame):
             highlightthickness=0
         )
         entry_4.place(
-            x=99.0,
+            x=99,
             y=393,
             width=225,
             height=25
         )
-
-        
-        image_1 = canvas.create_image(
-            641.0,
-            328.0,
-            image=image_image_1
+        canvas.create_image(
+            641,
+            328,
+            image=image1
         )
 
         canvas.create_rectangle(
-            642.0,
-            32.0,
-            875.0,
-            81.0,
+            642,
+            32,
+            875,
+            81,
             fill="#FEECD0",
             outline="")
 
         canvas.create_text(
-            667.0,
-            46.0,
+            667,
+            46,
             anchor="nw",
             text="Appointments\n",
             fill="#000000",
@@ -193,30 +176,30 @@ class Appointments(Frame):
         )
 
         
-        button_1 = Button(
-            image=button_image_1,
+        btn_addNow = Button(
+            image=addNow,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_1 clicked"),
             relief="flat"
         )
-        button_1.place(
-            x=541.0,
-            y=512.0,
+        btn_addNow.place(
+            x=541,
+            y=512,
             width=202.77001953125,
-            height=50.0
+            height=50
         )
 
-        button_2 = Button(
-            image=button_image_2,
+        btn_home = Button(
+            image=home,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_2 clicked"),
             relief="flat"
         )
-        button_2.place(
-            x=13.0,
-            y=530.0,
-            width=23.0,
-            height=23.0
+        btn_home.place(
+            x=13,
+            y=530,
+            width=23,
+            height=23
         )
