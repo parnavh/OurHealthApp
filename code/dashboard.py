@@ -40,63 +40,60 @@ class Dash_1(Frame):
 
         global garbage_1
         garbage_1 = []
-        button_image_1 = PhotoImage(file=relative_to_assets("1/button_1.png"))
-        button_image_2 = PhotoImage(file=relative_to_assets("1/button_2.png"))
-        button_image_3 = PhotoImage(file=relative_to_assets("1/button_3.png"))
-        button_image_4 = PhotoImage(file=relative_to_assets("1/button_4.png"))
-        image_image_1 = PhotoImage(file=relative_to_assets("1/image_1.png"))
-        image_image_2 = PhotoImage(file=relative_to_assets("1/image_2.png"))
-        garbage_1.extend([button_image_1, button_image_2, button_image_3, button_image_4, image_image_1, image_image_2])
+        reminder_active = PhotoImage(file=relative_to_assets("dashboard/reminder_active.png"))
+        appointments_inactive = PhotoImage(file=relative_to_assets("dashboard/appointments_inactive.png"))
+        prescriptions_inactive = PhotoImage(file=relative_to_assets("dashboard/prescriptions_inactive.png"))
+        addReminder = PhotoImage(file=relative_to_assets("dashboard/addReminder.png"))
+        profilepic = PhotoImage(file=relative_to_assets("dashboard/profilepic.png"))
+        notificationBell = PhotoImage(file=relative_to_assets("dashboard/notificationBell.png"))
+        garbage_1.extend([reminder_active, appointments_inactive, prescriptions_inactive, addReminder, profilepic, notificationBell])
 
         canvas.create_image(
             242,
             190,
-            image=button_image_1
+            image=reminder_active
         )
 
         
-        button_2 = Button(
-            image=button_image_2,
+        btn_appointment = Button(
+            image=appointments_inactive,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_2"),
             relief="flat"
         )
-        button_2.place(
-            x=373.0,
-            y=170.0,
-            width=119.0,
-            height=39.0
-        )
-
-        
-        button_3 = Button(
-            image=button_image_3,
+        btn_appointment.place(
+            x=373,
+            y=170,
+            width=119,
+            height=39
+        )        
+        btn_prescriptions = Button(
+            image=prescriptions_inactive,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_3"),
             relief="flat"
         )
-        button_3.place(
-            x=580.0,
-            y=169.0,
-            width=118.0,
-            height=40.0
+        btn_prescriptions.place(
+            x=580,
+            y=169,
+            width=118,
+            height=40
         )
-
         canvas.create_rectangle(
-            50.0,
-            209.0,
-            801.0,
-            600.0,
+            50,
+            209,
+            801,
+            600,
             fill="#F8F7F2",
             outline="")
 
         canvas.create_rectangle(
-            0.0,
-            0.0,
-            49.0,
-            600.0,
+            0,
+            0,
+            49,
+            600,
             fill="#F8CD8C",
             outline="")
 
@@ -120,9 +117,9 @@ class Dash_1(Frame):
 
         
         canvas.create_image(
-            91.0,
-            79.0,
-            image=image_image_1
+            91,
+            79,
+            image=profilepic
         )
 
         canvas.create_rectangle(
@@ -163,29 +160,29 @@ class Dash_1(Frame):
                 font=("Roboto", 12 * -1)
             )
 
-            but = get_button(self, image_image_2, i)
-            but.place(
+            btn_notificationBell = get_button(self, notificationBell, i)
+            btn_notificationBell.place(
                 x=95,
-                y=250.0 + cache
+                y=250 + cache
             )
 
-            self.items.append((rect1, text1, text2, but))
+            self.items.append((rect1, text1, text2, btn_notificationBell))
 
             cache += 55
             i += 1
         
-        button_4 = Button(
-            image=button_image_4,
+        btn_addReminder = Button(
+            image=addReminder,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Reminders"),
             relief="flat"
         )
-        button_4.place(
-            x=324.0,
-            y=521.0,
+        btn_addReminder.place(
+            x=324,
+            y=521,
             width=202,
-            height=50.0
+            height=50
         )
 
     def remove(self, number):
@@ -233,13 +230,13 @@ class Dash_1(Frame):
                 font=("Roboto", 12 * -1)
             )
 
-            but = get_button(self, image, i)
-            but.place(
+            btn_notificationBell = get_button(self, image, i)
+            btn_notificationBell.place(
                 x=95,
                 y=250 + cache
             )
 
-            self.items.append((rect1, text1, text2, but))
+            self.items.append((rect1, text1, text2, btn_notificationBell))
 
             cache += 55
             i += 1
@@ -267,37 +264,37 @@ class Dash_2(Frame):
 
         global garbage_2
         garbage_2 = []
-        button_image_1 = PhotoImage(file=relative_to_assets("2/button_1.png"))
-        button_image_2 = PhotoImage(file=relative_to_assets("2/button_2.png"))
-        button_image_3 = PhotoImage(file=relative_to_assets("2/button_3.png"))
-        button_image_4 = PhotoImage(file=relative_to_assets("2/button_4.png"))
-        image_image_1 = PhotoImage(file=relative_to_assets("2/image_1.png"))
-        image_image_2 = PhotoImage(file=relative_to_assets("2/image_2.png"))
-        garbage_2.extend([button_image_1, button_image_2, button_image_3, button_image_4, image_image_1, image_image_2])
+        reminder_inactive = PhotoImage(file=relative_to_assets("dashboard/reminder_inactive.png"))
+        prescriptions_inactive = PhotoImage(file=relative_to_assets("dashboard/prescriptions_inactive.png"))
+        appointments_active = PhotoImage(file=relative_to_assets("dashboard/appointments_active.png"))
+        addAppointment = PhotoImage(file=relative_to_assets("dashboard/addAppointment.png"))
+        profilepic = PhotoImage(file=relative_to_assets("dashboard/profilepic.png"))
+        doctor = PhotoImage(file=relative_to_assets("dashboard/doctor.png"))
+        garbage_2.extend([reminder_inactive, prescriptions_inactive, appointments_active, addAppointment, profilepic, doctor])
 
-        button_1 = Button(
-            image=button_image_1,
+        btn_reminder = Button(
+            image=reminder_inactive,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_1"),
             relief="flat"
         )
-        button_1.place(
-            x=195.0,
-            y=176.0,
-            width=94.0,
-            height=33.0
+        btn_reminder.place(
+            x=195,
+            y=176,
+            width=94,
+            height=33
         )
 
         
-        button_2 = Button(
-            image=button_image_2,
+        btn_presctiptions = Button(
+            image=prescriptions_inactive,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_3"),
             relief="flat"
         )
-        button_2.place(
+        btn_presctiptions.place(
             x=583.0,
             y=174.0,
             width=115.0,
@@ -306,7 +303,7 @@ class Dash_2(Frame):
         canvas.create_image(
             430,
             192,
-            image=button_image_3
+            image=appointments_active
         )
 
         
@@ -370,24 +367,24 @@ class Dash_2(Frame):
         canvas.create_image(
             91.0,
             79.0,
-            image=image_image_1
+            image=profilepic
         )
         
         canvas.create_image(
             104.0,
             266.0,
-            image=image_image_2
+            image=doctor
         )
 
         
-        button_4 = Button(
-            image=button_image_4,
+        btn_addAppointment = Button(
+            image=addAppointment,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_4 clicked"),
             relief="flat"
         )
-        button_4.place(
+        btn_addAppointment.place(
             x=324.0,
             y=521.0,
             width=202.77001953125,
@@ -432,7 +429,7 @@ class Dash_2(Frame):
                 font=("Roboto", 12 * -1)
             )
 
-            but = get_button(self, image_image_2, i)
+            but = get_button(self, doctor, i)
             but.place(
                 x=95,
                 y=250.0 + cache
@@ -517,16 +514,16 @@ class Dash_3(Frame):
 
         global garbage_3
         garbage_3 = []
-        button_image_1 = PhotoImage(file=relative_to_assets("3/button_1.png"))
-        button_image_2 = PhotoImage(file=relative_to_assets("3/button_2.png"))
-        button_image_3 = PhotoImage(file=relative_to_assets("3/button_3.png"))
-        button_image_4 = PhotoImage(file=relative_to_assets("3/button_4.png"))
-        image_image_1 = PhotoImage(file=relative_to_assets("3/image_1.png"))
-        image_image_2 = PhotoImage(file=relative_to_assets("3/image_2.png"))
-        garbage_3.extend([button_image_1, button_image_2, button_image_3, button_image_4, image_image_1, image_image_2])
+        reminder_inactive = PhotoImage(file=relative_to_assets("dashboard/reminder_2.png"))
+        appointments_active = PhotoImage(file=relative_to_assets("dashboard/appointments_inactive.png"))
+        prescriptions_active = PhotoImage(file=relative_to_assets("dashboard/prescriptions_active.png"))
+        addPrescription = PhotoImage(file=relative_to_assets("dashboard/addPrescription.png"))
+        prescription_image = PhotoImage(file=relative_to_assets("dashboard/prescription_image.png"))
+        profilepic = PhotoImage(file=relative_to_assets("dashboard/profilepic.png"))
+        garbage_3.extend([reminder_inactive, appointments_active, prescriptions_active, addPrescription, prescription_image, profilepic])
 
         button_1 = Button(
-            image=button_image_1,
+            image=reminder_inactive,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_1"),
@@ -539,30 +536,28 @@ class Dash_3(Frame):
             height=34.0
         )
 
-        
-        button_2 = Button(
-            image=button_image_2,
+        btn_appointment = Button(
+            image=appointments_active,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_2"),
             relief="flat"
         )
-        button_2.place(
+        btn_appointment.place(
             x=371.0,
             y=174.0,
             width=119.0,
             height=35.0
         )
 
-        
-        button_3 = Button(
-            image=button_image_3,
+        btn_prescription = Button(
+            image=prescriptions_active,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_3 clicked"),
             relief="flat"
         )
-        button_3.place(
+        btn_prescription.place(
             x=584.0,
             y=174.0,
             width=109.0,
@@ -612,10 +607,10 @@ class Dash_3(Frame):
         )
 
         
-        image_1 = canvas.create_image(
+        canvas.create_image(
             111.0,
             265.0,
-            image=image_image_1
+            image=prescription_image
         )
 
         canvas.create_text(
@@ -636,22 +631,21 @@ class Dash_3(Frame):
             font=("Roboto", 16 * -1)
         )
 
-        
-        image_2 = canvas.create_image(
+        canvas.create_image(
             91.0,
             79.0,
-            image=image_image_2
+            image=profilepic
         )
 
         
-        button_4 = Button(
-            image=button_image_4,
+        btn_addPrescription = Button(
+            image=addPrescription,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_4 clicked"),
             relief="flat"
         )
-        button_4.place(
+        btn_addPrescription.place(
             x=324.0,
             y=521.0,
             width=202.77001953125,

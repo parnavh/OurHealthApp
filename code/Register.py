@@ -229,6 +229,6 @@ class Register(Frame):
         db.execute(f"insert into userdata (username, gender, age) values ('{username}', '{gender}', '{age}')")
 
         self.window.data_name = username
-        self.window.data_age = age
+        self.window.data_age = str(age)
 
         self.window.show_frame("Dash_1")
