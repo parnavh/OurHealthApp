@@ -1,9 +1,10 @@
 from tkinter import Frame, Tk
 from reminders import Reminders
-from Register import Register
+from register import Register
 from login import Login
 from appointments import Appointments
 from dashboard import Dash_1, Dash_2, Dash_3
+from prescriptions import Prescriptions
 
 class App(Tk):
     def __init__(self, *args, **kwargs):

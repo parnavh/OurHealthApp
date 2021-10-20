@@ -14,7 +14,6 @@ class Appointments(Frame):
     def __init__(self, window, parent):
         Frame.__init__(self, parent)
         self.window = window
-        self.window.data_name = 'shravs'
 
         canvas = Canvas(
             parent,
@@ -60,18 +59,27 @@ class Appointments(Frame):
             font=("Roboto", 20 * -1)
         )
 
-        canvas.create_text(
-            90,
-            462,
-            anchor="nw",
-            text="For whom?",
-            fill="#000000",
-            font=("Roboto", 14 * -1)
+        entry_2 = Entry(
+            bd=0,
+            bg="#FFFFFF",
+            highlightthickness=0
         )
-        canvas.create_image(
-            212,
-            497,
-            image=entryImage
+        entry_2.place(
+            x=99,
+            y=210,
+            width=225,
+            height=25
+        )
+        entry_3 = Entry(
+            bd=0,
+            bg="#FFFFFF",
+            highlightthickness=0
+        )
+        entry_3.place(
+            x=99,
+            y=301,
+            width=225,
+            height=25
         )
         entry_1 = Entry(
             bd=0,
@@ -80,7 +88,7 @@ class Appointments(Frame):
         )
         entry_1.place(
             x=99,
-            y=485,
+            y=393,
             width=225,
             height=25
         )
@@ -97,17 +105,7 @@ class Appointments(Frame):
             223,
             image=entryImage
         )
-        entry_2 = Entry(
-            bd=0,
-            bg="#FFFFFF",
-            highlightthickness=0
-        )
-        entry_2.place(
-            x=99,
-            y=210,
-            width=225,
-            height=25
-        )
+        
         canvas.create_text(
             90,
             277,
@@ -121,22 +119,11 @@ class Appointments(Frame):
             314,
             image=entryImage
         )
-        entry_3 = Entry(
-            bd=0,
-            bg="#FFFFFF",
-            highlightthickness=0
-        )
-        entry_3.place(
-            x=99,
-            y=301,
-            width=225,
-            height=25
-        )
         canvas.create_text(
             90,
             368,
             anchor="nw",
-            text="Where?",
+            text="For whom?",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
@@ -145,17 +132,7 @@ class Appointments(Frame):
             405,
             image=entryImage
         )
-        entry_4 = Entry(
-            bd=0,
-            bg="#FFFFFF",
-            highlightthickness=0
-        )
-        entry_4.place(
-            x=99,
-            y=393,
-            width=225,
-            height=25
-        )
+        
         canvas.create_image(
             641,
             328,
@@ -198,7 +175,7 @@ class Appointments(Frame):
             image=home,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: self.window.show_frame("Dash_2"),
             relief="flat"
         )
         btn_home.place(
@@ -226,9 +203,8 @@ class Appointments(Frame):
             return
 
         if patient == '':
-            messagebox.showwarning("Set Appointment", "Please enter the patients's name")
-            return
+            patient = self.window.data_name
         
         db = Mysql()
         db.execute(f"insert into appointments (username, doctor, date, patient) values ('{self.window.data_name}', '{doctor}', '{date}', '{patient}')")
-        self.window.show_frame("Dash_1")
+        self.window.show_frame("Dash_2")

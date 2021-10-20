@@ -1,6 +1,7 @@
 from pathlib import Path
-from tkinter import Canvas, Button, PhotoImage, Frame, messagebox
+from tkinter import Canvas, Button, PhotoImage, Frame, messagebox, Label
 from sql import Mysql
+import webbrowser
 
 OUTPUT_PATH = Path(__file__).parent.parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -16,6 +17,21 @@ def get_button(self, image, i):
         command=lambda: self.remove(i),
         relief="flat"
     )
+
+def get_label(self, link, cache):
+    text2 = Label(
+        self.canvas,
+        text="Click here to view in browser",
+        font=("Roboto", 12 * -1),
+        bg="#ffffff"
+    )
+    text2.place(x=156, y=266 + cache)
+    text2.bind("<Button-1>", lambda x: webbrowser.open_new_tab(link))
+
+    return text2
+
+def get_link(name, filename):
+    return f"https://storage.googleapis.com/ourhealthapp-ca43a.appspot.com/{name}/{filename}"
 
 class Dash_1(Frame):
     def __init__(self, window, parent):
@@ -67,7 +83,7 @@ class Dash_1(Frame):
             y=170,
             width=119,
             height=39
-        )        
+        )
         btn_prescriptions = Button(
             image=prescriptions_inactive,
             borderwidth=0,
@@ -76,10 +92,10 @@ class Dash_1(Frame):
             relief="flat"
         )
         btn_prescriptions.place(
-            x=580,
-            y=169,
-            width=118,
-            height=40
+            x=583,
+            y=174,
+            width=115,
+            height=35.0
         )
         canvas.create_rectangle(
             50,
@@ -146,7 +162,7 @@ class Dash_1(Frame):
                 156,
                 250 + cache,
                 anchor="nw",
-                text=rem[0],
+                text='{:60}\t\t\tDue:{}'.format(rem[0], str(rem[2])),
                 fill="#000000",
                 font=("Roboto", 14 * -1)
             )
@@ -188,7 +204,9 @@ class Dash_1(Frame):
     def remove(self, number):
         if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
             return
-        self.reminders.pop(int(number))
+        val = self.reminders.pop(int(number))
+        db = Mysql()
+        db.execute(f"delete from reminders where username='{self.window.data_name}' and topic='{val[0]}'")
         for batch in self.items:
             for item in batch:
                 if hasattr(item, 'destroy'):
@@ -216,7 +234,7 @@ class Dash_1(Frame):
                 156,
                 250 + cache,
                 anchor="nw",
-                text=rem[0],
+                text='{:60}\t\t\tDue:{}'.format(rem[0], str(rem[2])),
                 fill="#000000",
                 font=("Roboto", 14 * -1)
             )
@@ -260,7 +278,8 @@ class Dash_2(Frame):
 
         self.canvas = canvas
 
-        self.appointments = [("Appointment with Dr. John Doe","Time: 2:00 P.M IST"), ("Appointment with Dr. dfgdfg Doe","Time: 5:00 P.M IST")]
+        db = Mysql()
+        self.appointments = db.get_appointments(self.window.data_name)
 
         global garbage_2
         garbage_2 = []
@@ -286,18 +305,17 @@ class Dash_2(Frame):
             height=33
         )
 
-        
-        btn_presctiptions = Button(
+        btn_prescriptions = Button(
             image=prescriptions_inactive,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_3"),
             relief="flat"
         )
-        btn_presctiptions.place(
-            x=583.0,
-            y=174.0,
-            width=115.0,
+        btn_prescriptions.place(
+            x=583,
+            y=174,
+            width=115,
             height=35.0
         )
         canvas.create_image(
@@ -307,26 +325,26 @@ class Dash_2(Frame):
         )
 
         canvas.create_rectangle(
-            49.0,
-            209.0,
-            800.0,
-            600.0,
+            49,
+            209,
+            800,
+            600,
             fill="#F8F7F2",
             outline="")
 
         canvas.create_rectangle(
-            369.0,
-            209.0,
-            489.0,
-            209.0,
+            369,
+            209,
+            489,
+            209,
             fill="#FFFFFF",
             outline="")
 
         canvas.create_rectangle(
-            0.0,
-            0.0,
-            49.0,
-            600.0,
+            0,
+            0,
+            49,
+            600,
             fill="#F8CD8C",
             outline="")
 
@@ -350,16 +368,11 @@ class Dash_2(Frame):
 
         
         canvas.create_image(
-            91.0,
-            79.0,
+            91,
+            79,
             image=profilepic
         )
         
-        canvas.create_image(
-            104.0,
-            266.0,
-            image=doctor
-        )
 
         btn_addAppointment = Button(
             image=addAppointment,
@@ -369,8 +382,8 @@ class Dash_2(Frame):
             relief="flat"
         )
         btn_addAppointment.place(
-            x=324.0,
-            y=521.0,
+            x=324,
+            y=521,
             width=202.77001953125,
             height=50.0
         )
@@ -390,7 +403,7 @@ class Dash_2(Frame):
                 156,
                 250 + cache,
                 anchor="nw",
-                text=appoint[0],
+                text=appoint[0] if appoint[2] == self.window.data_name else f"{appoint[0]} for {appoint[2]}",
                 fill="#000000",
                 font=("Roboto", 14 * -1)
             )
@@ -399,16 +412,7 @@ class Dash_2(Frame):
                 156,
                 266 + cache,
                 anchor="nw",
-                text=appoint[1],
-                fill="#000000",
-                font=("Roboto", 12 * -1)
-            )
-
-            canvas.create_text(
-                156.28997802734375,
-                266.0,
-                anchor="nw",
-                text="Time: 2:00 P.M IST,",
+                text="Date: " + appoint[1],
                 fill="#000000",
                 font=("Roboto", 12 * -1)
             )
@@ -427,7 +431,9 @@ class Dash_2(Frame):
     def remove(self, number):
         if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
             return
-        self.appointments.pop(int(number))
+        val = self.appointments.pop(int(number))
+        db = Mysql()
+        db.execute(f"delete from appointments where username='{self.window.data_name}' and doctor='{val[0]}' and date='{val[1]}'")
         for batch in self.items:
             for item in batch:
                 if hasattr(item, 'destroy'):
@@ -442,7 +448,7 @@ class Dash_2(Frame):
         cache = 0
         self.items = []
         i = 0
-        for rem in self.appointments:
+        for appoint in self.appointments:
             rect1 = self.canvas.create_rectangle(
                 77,
                 244 + cache,
@@ -455,7 +461,7 @@ class Dash_2(Frame):
                 156,
                 250 + cache,
                 anchor="nw",
-                text=rem[0],
+                text=appoint[0] if appoint[2] == self.window.data_name else f"{appoint[0]} for {appoint[2]}",
                 fill="#000000",
                 font=("Roboto", 14 * -1)
             )
@@ -464,7 +470,7 @@ class Dash_2(Frame):
                 156,
                 266 + cache,
                 anchor="nw",
-                text=rem[1],
+                text="Date: " + appoint[1],
                 fill="#000000",
                 font=("Roboto", 12 * -1)
             )
@@ -496,15 +502,20 @@ class Dash_3(Frame):
         )
         canvas.place(x = 0, y = 0)
 
+        self.canvas = canvas
+
+        db = Mysql()
+        self.prescriptions = db.get_prescriptions(self.window.data_name)
+
         global garbage_3
         garbage_3 = []
         reminder_inactive = PhotoImage(file=relative_to_assets("dashboard/reminder_2.png"))
-        appointments_active = PhotoImage(file=relative_to_assets("dashboard/appointments_inactive.png"))
+        appointments_inactive = PhotoImage(file=relative_to_assets("dashboard/appointments_inactive.png"))
         prescriptions_active = PhotoImage(file=relative_to_assets("dashboard/prescriptions_active.png"))
         addPrescription = PhotoImage(file=relative_to_assets("dashboard/addPrescription.png"))
         prescription_image = PhotoImage(file=relative_to_assets("dashboard/prescription_image.png"))
         profilepic = PhotoImage(file=relative_to_assets("dashboard/profilepic.png"))
-        garbage_3.extend([reminder_inactive, appointments_active, prescriptions_active, addPrescription, prescription_image, profilepic])
+        garbage_3.extend([reminder_inactive, appointments_inactive, prescriptions_active, addPrescription, prescription_image, profilepic])
 
         button_1 = Button(
             image=reminder_inactive,
@@ -514,88 +525,83 @@ class Dash_3(Frame):
             relief="flat"
         )
         button_1.place(
-            x=185.0,
-            y=175.0,
-            width=110.0,
+            x=185,
+            y=175,
+            width=110,
             height=34.0
         )
 
         btn_appointment = Button(
-            image=appointments_active,
+            image=appointments_inactive,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_2"),
             relief="flat"
         )
         btn_appointment.place(
-            x=371.0,
-            y=174.0,
-            width=119.0,
-            height=35.0
+            x=373,
+            y=170,
+            width=119,
+            height=39
         )
 
-        btn_prescription = Button(
+        canvas.create_image(
+            562,
+            179,
             image=prescriptions_active,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
-            relief="flat"
-        )
-        btn_prescription.place(
-            x=584.0,
-            y=174.0,
-            width=109.0,
-            height=29.0
+            anchor="nw"
         )
 
         canvas.create_rectangle(
-            49.0,
-            209.0,
-            800.0,
-            600.0,
+            49,
+            209,
+            800,
+            600,
             fill="#F8F7F2",
             outline="")
 
         canvas.create_rectangle(
-            0.0,
-            0.0,
-            49.0,
-            600.0,
+            0,
+            0,
+            49,
+            600,
             fill="#F8CD8C",
             outline="")
 
-        canvas.create_rectangle(
-            77.969970703125,
-            244.0,
-            761.3798828125,
-            286.6699981689453,
-            fill="#FFFFFF",
-            outline="")
+        cache = 0
+        self.items = []
+        i = 0
+        for pre in self.prescriptions:
+            rect1 = canvas.create_rectangle(
+                78,
+                244 + cache,
+                761,
+                287 + cache,
+                fill="#FFFFFF",
+                outline="")
 
-        canvas.create_text(
-            156.2900390625,
-            250.0,
-            anchor="nw",
-            text="Prescription Name (Dental )",
-            fill="#000000",
-            font=("Roboto", 14 * -1)
-        )
+            text1 = canvas.create_text(
+                156,
+                250 + cache,
+                anchor="nw",
+                text=pre[0],
+                fill="#000000",
+                font=("Roboto", 14 * -1)
+            )
 
-        canvas.create_text(
-            156.2900390625,
-            266.0,
-            anchor="nw",
-            text="<link here>",
-            fill="#000000",
-            font=("Roboto", 12 * -1)
-        )
+            text2 = get_label(self, get_link(self.window.data_name, pre[0]), cache)
 
-        
-        canvas.create_image(
-            111.0,
-            265.0,
-            image=prescription_image
-        )
+            btn_file = get_button(self, prescription_image, i)
+            btn_file.place(
+                x=111,
+                y=265 + cache,
+                anchor="center"
+            )
+
+            self.items.append((rect1, text1, text2, btn_file))
+
+            cache += 55
+            i += 1
 
         canvas.create_text(
             124,
@@ -616,8 +622,8 @@ class Dash_3(Frame):
         )
 
         canvas.create_image(
-            91.0,
-            79.0,
+            91,
+            79,
             image=profilepic
         )
 
@@ -626,20 +632,69 @@ class Dash_3(Frame):
             image=addPrescription,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
+            command=lambda: self.window.show_frame("Prescriptions"),
             relief="flat"
         )
         btn_addPrescription.place(
-            x=324.0,
-            y=521.0,
-            width=202.77001953125,
-            height=50.0
+            x=324,
+            y=521,
+            width=203,
+            height=50
         )
 
         canvas.create_rectangle(
-            578.0,
-            209.0,
-            698.0,
-            209.0,
+            578,
+            209,
+            698,
+            209,
             fill="#FFFFFF",
             outline="")
+
+    def remove(self, number):
+        if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
+            return
+        val = self.prescriptions.pop(int(number))
+        db = Mysql()
+        db.execute(f"delete from prescriptions where username='{self.window.data_name}' and filename='{val[0]}'")
+        for batch in self.items:
+            for item in batch:
+                if hasattr(item, 'destroy'):
+                    item.destroy()
+                else:
+                    self.canvas.delete(item)
+        cache = 0
+        self.items = []
+        i = 0
+        global garbage_3
+        image = garbage_3[4]
+        for pre in self.prescriptions:
+            rect1 = self.canvas.create_rectangle(
+                78,
+                244 + cache,
+                761,
+                287 + cache,
+                fill="#FFFFFF",
+                outline="")
+
+            text1 = self.canvas.create_text(
+                156,
+                250 + cache,
+                anchor="nw",
+                text=pre[0],
+                fill="#000000",
+                font=("Roboto", 14 * -1)
+            )
+
+            text2 = get_label(self, get_link(self.window.data_name, pre[0]), cache)
+
+            btn_file = get_button(self, image, i)
+            btn_file.place(
+                x=111,
+                y=265 + cache,
+                anchor="center"
+            )
+
+            self.items.append((rect1, text1, text2, btn_file))
+
+            cache += 55
+            i += 1

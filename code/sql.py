@@ -68,11 +68,35 @@ class Mysql:
         current_date = datetime.date.today().strftime('%y-%m-%d')
         connection = self.getConnection()
         cursor = connection.cursor(buffered=True)
-        query = (f"select * from reminders where username='{name}' and date >= {current_date} order by date asc")
+        query = (f"select * from reminders where username='{name}' and date >= '{str(current_date)}' order by date asc")
         cursor.execute(query)
         for (name, topic, date, description) in cursor:
-            string = '{:60}\t\t\tDue:{}'.format(topic, str(date))
-            val.append((string, description))
+            val.append((topic, description, date))
+        cursor.close()
+        connection.close()
+        return val
+
+    def get_appointments(self, name):
+        val = []
+        current_date = datetime.date.today().strftime('%y-%m-%d')
+        connection = self.getConnection()
+        cursor = connection.cursor(buffered=True)
+        query = (f"select * from appointments where username='{name}' and date >= '{str(current_date)}' order by date asc")
+        cursor.execute(query)
+        for (name, doctor, date, patient) in cursor:
+            val.append((doctor, str(date), patient))
+        cursor.close()
+        connection.close()
+        return val
+
+    def get_prescriptions(self, name):
+        val = []
+        connection = self.getConnection()
+        cursor = connection.cursor(buffered=True)
+        query = (f"select filename from prescriptions where username='{name}'")
+        cursor.execute(query)
+        for filename in cursor:
+            val.append(filename)
         cursor.close()
         connection.close()
         return val
