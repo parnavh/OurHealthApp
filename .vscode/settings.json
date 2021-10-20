@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "pl.cusmkmcxzzbq.ap-south-1.rds.amazonaws.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "aws",
+            "database": "project",
+            "username": "shadow",
+            "password": "fjv8eeZCHEENbOZSa5qh"
+        }
+    ]
+}

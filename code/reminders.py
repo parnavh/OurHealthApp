@@ -1,5 +1,7 @@
 from pathlib import Path
-from tkinter import Canvas, Button, PhotoImage, Frame, Entry
+from tkinter import Canvas, Button, PhotoImage, Frame, Entry, messagebox
+from re import fullmatch
+from sql import Mysql
 
 OUTPUT_PATH = Path(__file__).parent.parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -123,7 +125,7 @@ class Reminders(Frame):
             90.0,
             369.0,
             anchor="nw",
-            text="Any side notes?",
+            text="Set a description (optional)",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
@@ -168,7 +170,7 @@ class Reminders(Frame):
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=self.add,
             relief="flat"
         )
         button_1.place(
@@ -183,7 +185,7 @@ class Reminders(Frame):
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: self.window.show_frame("Dash_1"),
             relief="flat"
         )
         button_2.place(
@@ -192,3 +194,26 @@ class Reminders(Frame):
             width=23.0,
             height=23.0
         )
+
+        self.entry_1 = entry_1
+        self.entry_2 = entry_2
+        self.entry_3 = entry_3
+
+    def add(self):
+        title = self.entry_1.get()
+        date = self.entry_2.get()
+        description = self.entry_3.get()
+
+        if title == "":
+            messagebox.showwarning("Set Reminder", "Please enter a title")
+            return
+        
+        if not fullmatch(r'[0-9]{2}-[0-9]{2}-[0-9]{2}', date):
+            messagebox.showwarning("Set Reminder", "Please enter the date in a valid format:\nFormat: YY-MM-DD")
+            return
+
+        db = Mysql()
+
+        db.execute(f"insert into reminders (username, topic, date, description) values ('{self.window.data_name}', '{title}', '{date}', '{description}')")
+        
+        self.window.show_frame("Dash_1")

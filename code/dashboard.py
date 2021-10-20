@@ -1,5 +1,6 @@
 from pathlib import Path
-from tkinter import Canvas, Button, PhotoImage, Frame
+from tkinter import Canvas, Button, PhotoImage, Frame, messagebox
+from sql import Mysql
 
 OUTPUT_PATH = Path(__file__).parent.parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -7,10 +8,22 @@ ASSETS_PATH = OUTPUT_PATH / Path("./assets")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+def get_button(self, image, i):
+    return Button(
+        image=image,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: self.remove(i),
+        relief="flat"
+    )
+
 class Dash_1(Frame):
     def __init__(self, window, parent):
         Frame.__init__(self, parent)
         self.window = window
+
+        db = Mysql()
+        self.reminders = db.get_reminders(self.window.data_name)
 
         canvas = Canvas(
             parent,
@@ -23,6 +36,8 @@ class Dash_1(Frame):
         )
         canvas.place(x = 0, y = 0)
 
+        self.canvas = canvas
+
         global garbage_1
         garbage_1 = []
         button_image_1 = PhotoImage(file=relative_to_assets("1/button_1.png"))
@@ -33,18 +48,10 @@ class Dash_1(Frame):
         image_image_2 = PhotoImage(file=relative_to_assets("1/image_2.png"))
         garbage_1.extend([button_image_1, button_image_2, button_image_3, button_image_4, image_image_1, image_image_2])
 
-        button_1 = Button(
-            image=button_image_1,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
-            relief="flat"
-        )
-        button_1.place(
-            x=183.0,
-            y=171.0,
-            width=119.0,
-            height=38.0
+        canvas.create_image(
+            242,
+            190,
+            image=button_image_1
         )
 
         
@@ -52,7 +59,7 @@ class Dash_1(Frame):
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: self.window.show_frame("Dash_2"),
             relief="flat"
         )
         button_2.place(
@@ -67,7 +74,7 @@ class Dash_1(Frame):
             image=button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=lambda: self.window.show_frame("Dash_3"),
             relief="flat"
         )
         button_3.place(
@@ -90,89 +97,153 @@ class Dash_1(Frame):
             0.0,
             49.0,
             600.0,
-            fill="#F3A431",
+            fill="#F8CD8C",
             outline="")
 
-        
-        image_1 = canvas.create_image(
-            91.0,
-            79.0,
-            image=image_image_1
-        )
-
         canvas.create_text(
-            123.6046142578125,
-            53.838714599609375,
+            124,
+            54,
             anchor="nw",
-            text="JOHN DOE",
+            text="Welcome @" + self.window.data_name,
             fill="#000000",
             font=("Roboto", 20 * -1)
         )
 
         canvas.create_text(
-            123.632080078125,
-            83.10525512695312,
+            124,
+            83,
             anchor="nw",
-            text="AGE: 18",
+            text= "Age: " + self.window.data_age,
             fill="#000000",
             font=("Roboto", 16 * -1)
         )
 
-        canvas.create_rectangle(
-            182.0,
-            209.0,
-            302.0,
-            209.0,
-            fill="#FFFFFF",
-            outline="")
-
-        canvas.create_rectangle(
-            77.96713256835938,
-            244.0,
-            761.3771057128906,
-            284.0,
-            fill="#FFFFFF",
-            outline="")
-
-        canvas.create_text(
-            156.28570556640625,
-            250.0,
-            anchor="nw",
-            text="Notification",
-            fill="#000000",
-            font=("Roboto", 14 * -1)
-        )
-
         
-        image_2 = canvas.create_image(
-            103.69570922851562,
-            264.0,
-            image=image_image_2
+        canvas.create_image(
+            91.0,
+            79.0,
+            image=image_image_1
         )
 
-        canvas.create_text(
-            156.28570556640625,
-            266.0,
-            anchor="nw",
-            text="Reminder",
-            fill="#000000",
-            font=("Roboto", 12 * -1)
-        )
+        canvas.create_rectangle(
+            182,
+            209,
+            302,
+            209,
+            fill="#FFFFFF",
+            outline="")
 
+        cache = 0
+        self.items = []
+        i = 0
+        for rem in self.reminders:
+            rect1 = canvas.create_rectangle(
+                77,
+                244 + cache,
+                761,
+                284 + cache,
+                fill="#FFFFFF",
+                outline="")
+
+            text1 = canvas.create_text(
+                156,
+                250 + cache,
+                anchor="nw",
+                text=rem[0],
+                fill="#000000",
+                font=("Roboto", 14 * -1)
+            )
+
+            text2 = canvas.create_text(
+                156,
+                266 + cache,
+                anchor="nw",
+                text=rem[1],
+                fill="#000000",
+                font=("Roboto", 12 * -1)
+            )
+
+            but = get_button(self, image_image_2, i)
+            but.place(
+                x=95,
+                y=250.0 + cache
+            )
+
+            self.items.append((rect1, text1, text2, but))
+
+            cache += 55
+            i += 1
         
         button_4 = Button(
             image=button_image_4,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
+            command=lambda: self.window.show_frame("Reminders"),
             relief="flat"
         )
         button_4.place(
             x=324.0,
             y=521.0,
-            width=202.77000427246094,
+            width=202,
             height=50.0
         )
+
+    def remove(self, number):
+        if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
+            return
+        self.reminders.pop(int(number))
+        for batch in self.items:
+            for item in batch:
+                if hasattr(item, 'destroy'):
+                    item.destroy()
+                else:
+                    self.canvas.delete(item)
+        cache = 0
+        self.items = []
+        i = 0
+        global garbage_1
+        image = garbage_1[5]
+        cache = 0
+        self.items = []
+        i = 0
+        for rem in self.reminders:
+            rect1 = self.canvas.create_rectangle(
+                77,
+                244 + cache,
+                761,
+                284 + cache,
+                fill="#FFFFFF",
+                outline="")
+
+            text1 = self.canvas.create_text(
+                156,
+                250 + cache,
+                anchor="nw",
+                text=rem[0],
+                fill="#000000",
+                font=("Roboto", 14 * -1)
+            )
+
+            text2 = self.canvas.create_text(
+                156,
+                266 + cache,
+                anchor="nw",
+                text=rem[1],
+                fill="#000000",
+                font=("Roboto", 12 * -1)
+            )
+
+            but = get_button(self, image, i)
+            but.place(
+                x=95,
+                y=250 + cache
+            )
+
+            self.items.append((rect1, text1, text2, but))
+
+            cache += 55
+            i += 1
+        
 
 class Dash_2(Frame):
     def __init__(self, window, parent):
@@ -190,6 +261,10 @@ class Dash_2(Frame):
         )
         canvas.place(x = 0, y = 0)
 
+        self.canvas = canvas
+
+        self.appointments = [("Appointment with Dr. John Doe","Time: 2:00 P.M IST"), ("Appointment with Dr. dfgdfg Doe","Time: 5:00 P.M IST")]
+
         global garbage_2
         garbage_2 = []
         button_image_1 = PhotoImage(file=relative_to_assets("2/button_1.png"))
@@ -204,7 +279,7 @@ class Dash_2(Frame):
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=lambda: self.window.show_frame("Dash_1"),
             relief="flat"
         )
         button_1.place(
@@ -219,7 +294,7 @@ class Dash_2(Frame):
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: self.window.show_frame("Dash_3"),
             relief="flat"
         )
         button_2.place(
@@ -228,21 +303,26 @@ class Dash_2(Frame):
             width=115.0,
             height=35.0
         )
+        canvas.create_image(
+            430,
+            192,
+            image=button_image_3
+        )
 
         
-        button_3 = Button(
-            image=button_image_3,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
-            relief="flat"
-        )
-        button_3.place(
-            x=363.0,
-            y=175.0,
-            width=134.0,
-            height=34.0
-        )
+        # button_3 = Button(
+        #     image=button_image_3,
+        #     borderwidth=0,
+        #     highlightthickness=0,
+        #     command=lambda: self.window.show_frame("Dash_3"),
+        #     relief="flat"
+        # )
+        # button_3.place(
+        #     x=363.0,
+        #     y=175.0,
+        #     width=134.0,
+        #     height=34.0
+        # )
 
         canvas.create_rectangle(
             49.0,
@@ -269,58 +349,31 @@ class Dash_2(Frame):
             outline="")
 
         canvas.create_text(
-            123.6046142578125,
-            53.838714599609375,
+            124,
+            54,
             anchor="nw",
-            text="JOHN DOE",
+            text="Welcome @" + self.window.data_name,
             fill="#000000",
             font=("Roboto", 20 * -1)
         )
 
         canvas.create_text(
-            123.632080078125,
-            83.10525512695312,
+            124,
+            83,
             anchor="nw",
-            text="AGE: 18",
+            text= "Age: " + self.window.data_age,
             fill="#000000",
             font=("Roboto", 16 * -1)
         )
 
         
-        image_1 = canvas.create_image(
+        canvas.create_image(
             91.0,
             79.0,
             image=image_image_1
         )
-
-        canvas.create_rectangle(
-            77.97000122070312,
-            244.0,
-            761.3800354003906,
-            284.0,
-            fill="#FFFFFF",
-            outline="")
-
-        canvas.create_text(
-            156.28997802734375,
-            250.0,
-            anchor="nw",
-            text="Appointment with Dr. John Doe",
-            fill="#000000",
-            font=("Roboto", 14 * -1)
-        )
-
-        canvas.create_text(
-            156.28997802734375,
-            266.0,
-            anchor="nw",
-            text="Time: 2:00 P.M IST,",
-            fill="#000000",
-            font=("Roboto", 12 * -1)
-        )
-
         
-        image_2 = canvas.create_image(
+        canvas.create_image(
             104.0,
             266.0,
             image=image_image_2
@@ -340,6 +393,111 @@ class Dash_2(Frame):
             width=202.77001953125,
             height=50.0
         )
+        cache = 0
+        self.items = []
+        i = 0
+        for appoint in self.appointments:
+            rect1 = canvas.create_rectangle(
+                77,
+                244 + cache,
+                761,
+                284 + cache,
+                fill="#FFFFFF",
+                outline="")
+
+            text1 = canvas.create_text(
+                156,
+                250 + cache,
+                anchor="nw",
+                text=appoint[0],
+                fill="#000000",
+                font=("Roboto", 14 * -1)
+            )
+
+            text2 = canvas.create_text(
+                156,
+                266 + cache,
+                anchor="nw",
+                text=appoint[1],
+                fill="#000000",
+                font=("Roboto", 12 * -1)
+            )
+
+            canvas.create_text(
+                156.28997802734375,
+                266.0,
+                anchor="nw",
+                text="Time: 2:00 P.M IST,",
+                fill="#000000",
+                font=("Roboto", 12 * -1)
+            )
+
+            but = get_button(self, image_image_2, i)
+            but.place(
+                x=95,
+                y=250.0 + cache
+            )
+
+            self.items.append((rect1, text1, text2, but))
+
+            cache += 55
+            i += 1
+
+    def remove(self, number):
+        if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
+            return
+        self.appointments.pop(int(number))
+        for batch in self.items:
+            for item in batch:
+                if hasattr(item, 'destroy'):
+                    item.destroy()
+                else:
+                    self.canvas.delete(item)
+        cache = 0
+        self.items = []
+        i = 0
+        global garbage_2
+        image = garbage_2[5]
+        cache = 0
+        self.items = []
+        i = 0
+        for rem in self.appointments:
+            rect1 = self.canvas.create_rectangle(
+                77,
+                244 + cache,
+                761,
+                284 + cache,
+                fill="#FFFFFF",
+                outline="")
+
+            text1 = self.canvas.create_text(
+                156,
+                250 + cache,
+                anchor="nw",
+                text=rem[0],
+                fill="#000000",
+                font=("Roboto", 14 * -1)
+            )
+
+            text2 = self.canvas.create_text(
+                156,
+                266 + cache,
+                anchor="nw",
+                text=rem[1],
+                fill="#000000",
+                font=("Roboto", 12 * -1)
+            )
+
+            but = get_button(self, image, i)
+            but.place(
+                x=95,
+                y=250 + cache
+            )
+
+            self.items.append((rect1, text1, text2, but))
+
+            cache += 55
+            i += 1
 
 class Dash_3(Frame):
     def __init__(self, window, parent):
@@ -371,7 +529,7 @@ class Dash_3(Frame):
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=lambda: self.window.show_frame("Dash_1"),
             relief="flat"
         )
         button_1.place(
@@ -386,7 +544,7 @@ class Dash_3(Frame):
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: self.window.show_frame("Dash_2"),
             relief="flat"
         )
         button_2.place(
@@ -461,19 +619,19 @@ class Dash_3(Frame):
         )
 
         canvas.create_text(
-            123.6046142578125,
-            53.838714599609375,
+            124,
+            54,
             anchor="nw",
-            text="JOHN DOE",
+            text="Welcome @" + self.window.data_name,
             fill="#000000",
             font=("Roboto", 20 * -1)
         )
 
         canvas.create_text(
-            123.632080078125,
-            83.10525512695312,
+            124,
+            83,
             anchor="nw",
-            text="AGE: 18",
+            text= "Age: " + self.window.data_age,
             fill="#000000",
             font=("Roboto", 16 * -1)
         )
