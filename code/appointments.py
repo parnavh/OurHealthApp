@@ -1,5 +1,8 @@
 from pathlib import Path
-from tkinter import Canvas, Button, PhotoImage, Frame, Entry
+from tkinter import Canvas, Button, PhotoImage, Frame, Entry, messagebox
+from sql import Mysql
+import re
+
 
 OUTPUT_PATH = Path(__file__).parent.parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -11,6 +14,7 @@ class Appointments(Frame):
     def __init__(self, window, parent):
         Frame.__init__(self, parent)
         self.window = window
+        self.window.data_name = 'shravs'
 
         canvas = Canvas(
             parent,
@@ -58,7 +62,7 @@ class Appointments(Frame):
 
         canvas.create_text(
             90,
-            446,
+            462,
             anchor="nw",
             text="For whom?",
             fill="#000000",
@@ -82,14 +86,14 @@ class Appointments(Frame):
         )
         canvas.create_text(
             90,
-            172,
+            185,
             anchor="nw",
             text="Whom are you consulting?",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
         canvas.create_image(
-            205,
+            212,
             223,
             image=entryImage
         )
@@ -99,21 +103,21 @@ class Appointments(Frame):
             highlightthickness=0
         )
         entry_2.place(
-            x=92,
+            x=99,
             y=210,
             width=225,
             height=25
         )
         canvas.create_text(
             90,
-            264,
+            277,
             anchor="nw",
             text="When?",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
         canvas.create_image(
-            208,
+            212,
             314,
             image=entryImage
         )
@@ -123,14 +127,14 @@ class Appointments(Frame):
             highlightthickness=0
         )
         entry_3.place(
-            x=95,
+            x=99,
             y=301,
             width=225,
             height=25
         )
         canvas.create_text(
             90,
-            355,
+            368,
             anchor="nw",
             text="Where?",
             fill="#000000",
@@ -180,13 +184,13 @@ class Appointments(Frame):
             image=addNow,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=self.add,
             relief="flat"
         )
         btn_addNow.place(
             x=541,
             y=512,
-            width=202.77001953125,
+            width=202,
             height=50
         )
 
@@ -203,3 +207,28 @@ class Appointments(Frame):
             width=23,
             height=23
         )
+
+        self.entry_2 = entry_2
+        self.entry_3 = entry_3
+        self.entry_1 = entry_1
+
+    def add(self):
+        doctor = self.entry_2.get()
+        date = self.entry_3.get()
+        patient = self.entry_1.get()
+
+        if doctor == '':
+            messagebox.showwarning("Set Appointment", "Please enter the doctor's name")
+            return
+        
+        if not re.fullmatch(r'[0-9]{2}-[0-9]{2}-[0-9]{2}', date):
+            messagebox.showwarning("Set Appointment", "Please enter the date in a valid format:\nFormat: YY-MM-DD")
+            return
+
+        if patient == '':
+            messagebox.showwarning("Set Appointment", "Please enter the patients's name")
+            return
+        
+        db = Mysql()
+        db.execute(f"insert into appointments (username, doctor, date, patient) values ('{self.window.data_name}', '{doctor}', '{date}', '{patient}')")
+        self.window.show_frame("Dash_1")

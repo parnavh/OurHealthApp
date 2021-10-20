@@ -306,21 +306,6 @@ class Dash_2(Frame):
             image=appointments_active
         )
 
-        
-        # button_3 = Button(
-        #     image=button_image_3,
-        #     borderwidth=0,
-        #     highlightthickness=0,
-        #     command=lambda: self.window.show_frame("Dash_3"),
-        #     relief="flat"
-        # )
-        # button_3.place(
-        #     x=363.0,
-        #     y=175.0,
-        #     width=134.0,
-        #     height=34.0
-        # )
-
         canvas.create_rectangle(
             49.0,
             209.0,
@@ -376,12 +361,11 @@ class Dash_2(Frame):
             image=doctor
         )
 
-        
         btn_addAppointment = Button(
             image=addAppointment,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
+            command=lambda: self.window.show_frame("Appointments"),
             relief="flat"
         )
         btn_addAppointment.place(
