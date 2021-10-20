@@ -1,9 +1,8 @@
 from tkinter import Frame, Tk
 from reminders import Reminders
-from createaccount import createacc
-from login import login
-
-# FRAMES = [Dash_1, Dash_2, Dash_3]
+from Register import Register
+from login import Login
+from dashboard import Dash_1, Dash_2, Dash_3
 
 class App(Tk):
     def __init__(self, *args, **kwargs):
@@ -19,20 +18,21 @@ class App(Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
-
-        # for f in FRAMES:
-        #     name = f.__name__
-        #     frame = f(self, container)
-        #     self.frames[name] = frame
-        #     frame.grid(row=0, column=0, sticky="nsew")
-        #     frame.tkraise()
-
-        # Reminders(self, container)
-        # createacc(self, container)
-        login(self, container)
-
+        self.container = container
+        self.show_frame("Login")
         self.mainloop()
+
+    def show_frame(self, page_name):
+        if hasattr(self, "current_frame"):
+            self.current_frame.master.destroy()
+            container = Frame(self)
+            container.pack(side="top", fill="both", expand=True)
+            container.grid_rowconfigure(0, weight=1)
+            container.grid_columnconfigure(0, weight=1)
+
+            self.container = container
+        self.current_frame = eval(f"{page_name}(self, self.container)")
+        self.current_frame.tkraise()
 
 def main():
     app = App()
