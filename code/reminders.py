@@ -25,26 +25,23 @@ class Reminders(Frame):
         )
         canvas.place(x = 0, y = 0)
 
-        global entry_image_1, entry_image_2, entry_image_3, image_image_1
-        global button_image_1, button_image_2
-        entry_image_1 = PhotoImage(file=relative_to_assets("reminders/entry_1.png"))
-        entry_image_2 = PhotoImage(file=relative_to_assets("reminders/entry_2.png"))
-        entry_image_3 = PhotoImage(file=relative_to_assets("reminders/entry_3.png"))
-        image_image_1 = PhotoImage(file=relative_to_assets("reminders/image_1.png"))
-        button_image_1 = PhotoImage(file=relative_to_assets("reminders/button_1.png"))
-        button_image_2 = PhotoImage(file=relative_to_assets("reminders/button_2.png"))
+        global entryImage, image1, setnow, home
+        entryImage = PhotoImage(file=relative_to_assets("reminders/entryImage.png"))
+        image1 = PhotoImage(file=relative_to_assets("reminders/image1.png"))
+        setnow = PhotoImage(file=relative_to_assets("reminders/setnow.png"))
+        home = PhotoImage(file=relative_to_assets("reminders/home.png"))
 
         canvas.create_rectangle(
-            0.0,
-            0.0,
-            49.0,
-            600.0,
+            0,
+            0,
+            49,
+            600,
             fill="#F8CD8C",
             outline="")
 
         canvas.create_text(
-            60.0,
-            49.0,
+            60,
+            49,
             anchor="nw",
             text="Hey John!",
             fill="#000000",
@@ -52,24 +49,23 @@ class Reminders(Frame):
         )
 
         canvas.create_text(
-            60.0,
-            97.0,
+            60,
+            97,
             anchor="nw",
             text="Never miss out on your health!",
             fill="#000000",
             font=("Roboto", 20 * -1)
         )
-
-        
-        image_1 = canvas.create_image(
-            654.0,
-            325.0,
-            image=image_image_1
+    
+        canvas.create_image(
+            654,
+            325,
+            image=image1
         )
 
         canvas.create_text(
-            90.0,
-            191.0,
+            90,
+            190,
             anchor="nw",
             text="What shoud I remind you about?",
             fill="#000000",
@@ -77,26 +73,26 @@ class Reminders(Frame):
         )
 
         
-        entry_bg_1 = canvas.create_image(
-            202.0,
-            231.64544677734375,
-            image=entry_image_1
+        canvas.create_image(
+            202,
+            231,
+            image=entryImage
         )
-        entry_1 = Entry(
+        entry1 = Entry(
             bd=0,
             bg="#FFFFFF",
             highlightthickness=0
         )
-        entry_1.place(
-            x=90.0,
-            y=218,
-            width=224.0,
+        entry1.place(
+            x=90,
+            y=217,
+            width=224,
             height=28
         )
 
         canvas.create_text(
-            90.0,
-            280.0,
+            90,
+            280,
             anchor="nw",
             text="By when do you wish to get it done?",
             fill="#000000",
@@ -104,100 +100,98 @@ class Reminders(Frame):
         )
 
         
-        entry_bg_2 = canvas.create_image(
-            200.9072265625,
-            320.44366455078125,
-            image=entry_image_2
+        canvas.create_image(
+            200,
+            320,
+            image=entryImage
         )
-        entry_2 = Entry(
+        entry2 = Entry(
             bd=0,
             bg="#FFFFFF",
             highlightthickness=0
         )
-        entry_2.place(
-            x=88.9072265625,
+        entry2.place(
+            x=88,
             y=306,
-            width=224.0,
+            width=224,
             height=28
         )
 
         canvas.create_text(
-            90.0,
-            369.0,
+            90,
+            369,
             anchor="nw",
             text="Set a description (optional)",
             fill="#000000",
             font=("Roboto", 14 * -1)
         )
 
-        
-        entry_bg_3 = canvas.create_image(
-            202.586181640625,
-            415.6081237792969,
-            image=entry_image_3
+        canvas.create_image(
+            202,
+            415,
+            image=entryImage
         )
-        entry_3 = Entry(
+        entry3 = Entry(
             bd=0,
             bg="#FFFFFF",
             highlightthickness=0
         )
-        entry_3.place(
-            x=90.586181640625,
-            y=403,
-            width=224.0,
+        entry3.place(
+            x=90,
+            y=402,
+            width=224,
             height=27
         )
 
         canvas.create_rectangle(
-            642.0000610351562,
-            32.0,
-            875.0000610351562,
-            81.0,
+            642,
+            32,
+            875,
+            81,
             fill="#FEECD0",
             outline="")
 
         canvas.create_text(
-            667.0000610351562,
-            46.0,
+            667,
+            46,
             anchor="nw",
             text="Set a reminder",
             fill="#000000",
             font=("Roboto", 16 * -1)
         )
-
         
-        button_1 = Button(
-            image=button_image_1,
+        btn_setnow = Button(
+            image=setnow,
             borderwidth=0,
             highlightthickness=0,
             command=self.add,
             relief="flat"
         )
-        button_1.place(
-            x=541.0,
-            y=512.0,
-            width=202.77001953125,
+        btn_setnow.place(
+            x=541,
+            y=512,
+            width=202,
             height=50.0
         )
 
         
-        button_2 = Button(
-            image=button_image_2,
+        btn_home = Button(
+            image=home,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.window.show_frame("Dash_1"),
             relief="flat"
         )
-        button_2.place(
-            x=13.0,
-            y=530.0,
-            width=23.0,
+        btn_home.place(
+            x=13,
+            y=530,
+            width=23,
             height=23.0
         )
 
-        self.entry_1 = entry_1
-        self.entry_2 = entry_2
-        self.entry_3 = entry_3
+        self.entry_1 = entry1
+        self.entry_2 = entry2
+        self.entry_3 = entry3
 
     def add(self):
         title = self.entry_1.get()
