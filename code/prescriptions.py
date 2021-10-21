@@ -47,6 +47,10 @@ def get_label(self, link, cache):
 def get_link(name, filename):
     return f"https://storage.googleapis.com/ourhealthapp-ca43a.appspot.com/{name}/{filename}"
 
+def crossify(button, normal, onHover):
+    button.bind("<Enter>", func=lambda e: button.config(image=onHover))
+    button.bind("<Leave>", func=lambda e: button.config(image=normal))
+
 class Prescriptions(Frame):
     def __init__(self, window, parent):
         Frame.__init__(self, parent)
@@ -69,7 +73,8 @@ class Prescriptions(Frame):
         db = Mysql()
         self.prescriptions = db.get_prescriptions(self.window.data_name)
 
-        global image_1, entry_image, button_image_1, button_image_2, entry_1
+        global image_1, entry_image, button_image_1, button_image_2, entry_1, cross
+        cross = PhotoImage(file=relative_to_assets("cross.png"))
         image_1 = PhotoImage(file=relative_to_assets("image_1.png"))
         entry_image = PhotoImage(file=relative_to_assets("entry_1.png"))
         button_image_1 = PhotoImage(file=relative_to_assets("button_1.png"))
@@ -222,6 +227,8 @@ class Prescriptions(Frame):
                 anchor="center"
             )
 
+            crossify(btn_file, image_1, cross)
+
             self.items.append((rect1, text1, text2, btn_file))
 
             cache += 55
@@ -267,6 +274,7 @@ class Prescriptions(Frame):
                 y=264 + cache,
                 anchor="center"
             )
+            crossify(btn_file, image_1, cross)
 
             self.items.append((rect1, text1, text2, btn_file))
 

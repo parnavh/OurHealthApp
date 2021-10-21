@@ -33,6 +33,10 @@ def get_label(self, link, cache):
 def get_link(name, filename):
     return f"https://storage.googleapis.com/ourhealthapp-ca43a.appspot.com/{name}/{filename}"
 
+def crossify(button, normal, onHover):
+    button.bind("<Enter>", func=lambda e: button.config(image=onHover))
+    button.bind("<Leave>", func=lambda e: button.config(image=normal))
+
 class Dash_1(Frame):
     def __init__(self, window, parent):
         Frame.__init__(self, parent)
@@ -54,7 +58,8 @@ class Dash_1(Frame):
 
         self.canvas = canvas
 
-        global garbage_1
+        global garbage_1, cross
+        cross = PhotoImage(file=relative_to_assets("dashboard/cross.png"))
         garbage_1 = []
         reminder_active = PhotoImage(file=relative_to_assets("dashboard/reminder_active.png"))
         appointments_inactive = PhotoImage(file=relative_to_assets("dashboard/appointments_inactive.png"))
@@ -181,6 +186,7 @@ class Dash_1(Frame):
                 x=95,
                 y=250 + cache
             )
+            crossify(btn_notificationBell, notificationBell, cross)
 
             self.items.append((rect1, text1, text2, btn_notificationBell))
 
@@ -202,7 +208,7 @@ class Dash_1(Frame):
         )
 
     def remove(self, number):
-        if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
+        if not messagebox.askokcancel("Reminders", "This entry will be marked done", icon="warning"):
             return
         val = self.reminders.pop(int(number))
         db = Mysql()
@@ -218,9 +224,6 @@ class Dash_1(Frame):
         i = 0
         global garbage_1
         image = garbage_1[5]
-        cache = 0
-        self.items = []
-        i = 0
         for rem in self.reminders:
             rect1 = self.canvas.create_rectangle(
                 77,
@@ -253,6 +256,7 @@ class Dash_1(Frame):
                 x=95,
                 y=250 + cache
             )
+            crossify(btn_notificationBell, image, cross)
 
             self.items.append((rect1, text1, text2, btn_notificationBell))
 
@@ -281,7 +285,8 @@ class Dash_2(Frame):
         db = Mysql()
         self.appointments = db.get_appointments(self.window.data_name)
 
-        global garbage_2
+        global garbage_2, cross
+        cross = PhotoImage(file=relative_to_assets("dashboard/cross.png"))
         garbage_2 = []
         reminder_inactive = PhotoImage(file=relative_to_assets("dashboard/reminder_inactive.png"))
         prescriptions_inactive = PhotoImage(file=relative_to_assets("dashboard/prescriptions_inactive.png"))
@@ -422,6 +427,7 @@ class Dash_2(Frame):
                 x=95,
                 y=250.0 + cache
             )
+            crossify(but, doctor, cross)
 
             self.items.append((rect1, text1, text2, but))
 
@@ -429,7 +435,7 @@ class Dash_2(Frame):
             i += 1
 
     def remove(self, number):
-        if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
+        if not messagebox.askokcancel("Appointments", "This entry will be marked done", icon="warning"):
             return
         val = self.appointments.pop(int(number))
         db = Mysql()
@@ -480,6 +486,7 @@ class Dash_2(Frame):
                 x=95,
                 y=250 + cache
             )
+            crossify(but, image, cross)
 
             self.items.append((rect1, text1, text2, but))
 
@@ -507,7 +514,8 @@ class Dash_3(Frame):
         db = Mysql()
         self.prescriptions = db.get_prescriptions(self.window.data_name)
 
-        global garbage_3
+        global garbage_3, cross
+        cross = PhotoImage(file=relative_to_assets("dashboard/cross.png"))
         garbage_3 = []
         reminder_inactive = PhotoImage(file=relative_to_assets("dashboard/reminder_2.png"))
         appointments_inactive = PhotoImage(file=relative_to_assets("dashboard/appointments_inactive.png"))
@@ -597,6 +605,7 @@ class Dash_3(Frame):
                 y=265 + cache,
                 anchor="center"
             )
+            crossify(btn_file, prescription_image, cross)
 
             self.items.append((rect1, text1, text2, btn_file))
 
@@ -651,7 +660,7 @@ class Dash_3(Frame):
             outline="")
 
     def remove(self, number):
-        if not messagebox.askokcancel("Reminders", "This entry will be marked as done", icon="warning"):
+        if not messagebox.askokcancel("Prescription", "This entry will be deleted", icon="warning"):
             return
         val = self.prescriptions.pop(int(number))
         db = Mysql()
@@ -693,6 +702,7 @@ class Dash_3(Frame):
                 y=265 + cache,
                 anchor="center"
             )
+            crossify(btn_file, image, cross)
 
             self.items.append((rect1, text1, text2, btn_file))
 
