@@ -19,31 +19,31 @@ The above said features are connected with a SQL database and work dynamically w
 ## Images
 
 ##### Login Page
-![[assets/readme/login.png]]
+![Login Image](assets/readme/login.png)
 
 ##### Register Page
-![[assets/readme/register.png]]
+![Register Image](assets/readme/register.png)
 
 ##### Reminders
-![[assets/readme/reminders.png]]
+![Reminders Image](assets/readme/reminders.png)
 
 ##### Add Reminders
-![[assets/readme/add_reminders.png]]
+![Add reminders Image](assets/readme/add_reminders.png)
 
 ##### Appointments
-![[assets/readme/appointments.png]]
+![Appointments Image](assets/readme/appointments.png)
 
 ##### Add Appointments
-![[assets/readme/add_appointments.png]]
+![Add appointments Image](assets/readme/add_appointments.png)
 
 ##### Prescriptions
-![[assets/readme/prescriptions.png]]
+![Prescriptions Image](assets/readme/prescriptions.png)
 
 ##### Add Prescriptions
-![[assets/readme/add_prescriptions.png]]
+![Add prescriptions Image](assets/readme/add_prescriptions.png)
 
 
 ## Contributors
 
-[Shravani Bhoir](https://github.com/Shravani-03)
+[Shravani Bhoir](https://github.com/Shravani-03)  
 [Parnav Harinathan](https://github.com/parnavh)
