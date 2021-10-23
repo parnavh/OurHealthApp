@@ -2,6 +2,7 @@ from pathlib import Path
 from tkinter import Canvas, Button, PhotoImage, Frame, messagebox, Label
 from sql import Mysql
 import webbrowser
+from firebase import delete_file
 
 OUTPUT_PATH = Path(__file__).parent.parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -665,6 +666,7 @@ class Dash_3(Frame):
         val = self.prescriptions.pop(int(number))
         db = Mysql()
         db.execute(f"delete from prescriptions where username='{self.window.data_name}' and filename='{val[0]}'")
+        delete_file(val[0], self.window.data_name)
         for batch in self.items:
             for item in batch:
                 if hasattr(item, 'destroy'):

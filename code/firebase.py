@@ -14,3 +14,13 @@ def upload(filename, file, user):
     except Exception as err:
         print(err)
         return False
+
+def delete_file(filename, user):
+    try:
+        bucket = storage.bucket()
+        blob = bucket.blob(f'{user}/{filename}')
+        blob.delete()
+        return True
+    except Exception as err:
+        print(err)
+        return False

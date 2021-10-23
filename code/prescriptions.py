@@ -1,6 +1,6 @@
 from pathlib import Path
 from tkinter import Frame, Canvas, Entry, Button, Label, PhotoImage, filedialog, messagebox
-from firebase import upload
+from firebase import upload, delete_file
 import re
 import webbrowser
 from sql import Mysql
@@ -109,7 +109,7 @@ class Prescriptions(Frame):
             60,
             49,
             anchor="nw",
-            text="Hey John!",
+            text=f"Hey {self.window.data_name}!",
             fill="#000000",
             font=("Roboto", 20 * -1)
         )
@@ -237,7 +237,9 @@ class Prescriptions(Frame):
     def remove(self, number):
         if not messagebox.askokcancel("Prescriptions", "This prescription will be deleted", icon="warning"):
             return
-        self.remove_sql(self.prescriptions.pop(int(number)))
+        val = self.prescriptions.pop(int(number))
+        self.remove_sql(val)
+        delete_file(val[0], self.window.data_name)
         for batch in self.items:
             for item in batch:
                 if hasattr(item, 'destroy'):

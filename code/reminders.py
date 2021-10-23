@@ -43,7 +43,7 @@ class Reminders(Frame):
             60,
             49,
             anchor="nw",
-            text="Hey John!",
+            text=f"Hey {self.window.data_name}!",
             fill="#000000",
             font=("Roboto", 20 * -1)
         )
